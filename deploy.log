@@ -117,3 +117,25 @@ application.argoproj.io/root-app created
 3. Monitor Deployment:
    kubectl get applications -n argocd
 --------------------------------------------------------
+📝 Logging output to deploy.log
+🚀 Starting Master Deployment Script...
+✅ Infrastructure (k3s/kubectl) appears to be installed.
+ℹ️ Set KUBECONFIG to /etc/rancher/k3s/k3s.yaml
+⏳ Verifying Cluster connectivity...
+✅ Cluster is Online.
+🔍 Checking ArgoCD...
+✅ ArgoCD is already installed.
+🚀 Applying Root GitOps Application...
+application.argoproj.io/root-app configured
+--------------------------------------------------------
+🎉 FULL STACK DEPLOYMENT COMPLETE!
+--------------------------------------------------------
+1. ArgoCD Password:
+   h8ASE9S5kmsoxW3e
+
+2. Port Forward ArgoCD:
+   kubectl port-forward svc/argocd-server -n argocd 8080:443
+
+3. Monitor Deployment:
+   kubectl get applications -n argocd
+--------------------------------------------------------

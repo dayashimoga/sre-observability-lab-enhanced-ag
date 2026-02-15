@@ -1,0 +1,16 @@
+apiVersion: v2
+name: linkerd-wrapper
+description: A wrapper chart for Linkerd Service Mesh
+type: application
+version: 0.1.0
+appVersion: "stable-2.14.0"
+dependencies:
+  - name: linkerd-crds
+    version: 1.8.0
+    repository: https://helm.linkerd.io/stable
+  - name: linkerd-control-plane
+    version: 1.16.11
+    repository: https://helm.linkerd.io/stable
+  - name: linkerd-viz
+    version: 30.12.11
+    repository: https://helm.linkerd.io/stable

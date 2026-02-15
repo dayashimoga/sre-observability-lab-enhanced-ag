@@ -1,0 +1,15 @@
+
+# Default values for linkerd-wrapper.
+
+linkerd-control-plane:
+  identityTrustAnchorsPEM: |
+    # We will let Linkerd generate CA by default or trust cert-manager if integrated later.
+    # For this lab, using default self-signed is fine for simplicity given the complexity of external CA.
+  identity:
+    issuer:
+      scheme: kubernetes.io/tls
+
+linkerd-viz:
+  # Enable dashboard
+  dashboard:
+    enforcedHostRegexp: ".*"
