@@ -1,0 +1,47 @@
+controller:
+  replicas: 1
+destination:
+  replicas: 1
+# identityTrustAnchorsPEM: |
+#   -----BEGIN CERTIFICATE-----
+#   MIIBhzCCAS6gAwIBAgIBATAKBggqhkjOPQQDAjAcMRowGAYDVQQDExFpZGVudGl0
+#   eS5saW5rZXJkLjAeFw0yNjAyMTUxNTE3MjhaFw0yNzAyMTUxNTE3NDhaMBwxGjAY
+#   BgNVBAMTEWlkZW50aXR5LmxpbmtlcmQuMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcD
+#   QgAEavp8fvLKj1u3qtjhTdYqWfiuLgrfD2vSLflDFEvqoUKm+61hxD6IVC1bvPgc
+#   1jPTMsgbE6547SphyzC9cIrgwqNhMF8wDgYDVR0PAQH/BAQDAgEGMB0GA1UdJQQW
+#   MBQGCCsGAQUFBwMBBggrBgEFBQcDAjAPBgNVHRMBAf8EBTADAQH/MB0GA1UdDgQW
+#   BBTy6/OOr4o7ls7M+FYGARsREca5JjAKBggqhkjOPQQDAgNHADBEAiA+Vdr1wx2G
+#   VUDBotIPsgJ9ZdAsWArmGvtQSG5afQCTVgIgemAEnj2lNYZEUzZMROdSAMDAMW84
+#   aCfdItbPzVlwD3Q=
+#   -----END CERTIFICATE-----
+identity:
+  replicas: 1
+  issuer:
+    scheme: linkerd.io/tls
+    tls:
+      crtPEM: |
+        -----BEGIN CERTIFICATE-----
+        MIIBhzCCAS6gAwIBAgIBATAKBggqhkjOPQQDAjAcMRowGAYDVQQDExFpZGVudGl0
+        eS5saW5rZXJkLjAeFw0yNjAyMTUxNTE3MjhaFw0yNzAyMTUxNTE3NDhaMBwxGjAY
+        BgNVBAMTEWlkZW50aXR5LmxpbmtlcmQuMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcD
+        QgAEavp8fvLKj1u3qtjhTdYqWfiuLgrfD2vSLflDFEvqoUKm+61hxD6IVC1bvPgc
+        1jPTMsgbE6547SphyzC9cIrgwqNhMF8wDgYDVR0PAQH/BAQDAgEGMB0GA1UdJQQW
+        MBQGCCsGAQUFBwMBBggrBgEFBQcDAjAPBgNVHRMBAf8EBTADAQH/MB0GA1UdDgQW
+        BBTy6/OOr4o7ls7M+FYGARsREca5JjAKBggqhkjOPQQDAgNHADBEAiA+Vdr1wx2G
+        VUDBotIPsgJ9ZdAsWArmGvtQSG5afQCTVgIgemAEnj2lNYZEUzZMROdSAMDAMW84
+        aCfdItbPzVlwD3Q=
+        -----END CERTIFICATE-----
+      keyPEM: |
+        -----BEGIN EC PRIVATE KEY-----
+        MHcCAQEEIEGHHavbiRTc81YvYlPYa1feXzD/Lwrux9HtaJ4ch7HnoAoGCCqGSM49
+        AwEHoUQDQgAEavp8fvLKj1u3qtjhTdYqWfiuLgrfD2vSLflDFEvqoUKm+61hxD6I
+        VC1bvPgc1jPTMsgbE6547SphyzC9cIrgwg==
+        -----END EC PRIVATE KEY-----
+proxyInjector:
+  replicas: 1
+profileValidator:
+  replicas: 1
+spValidator:
+  replicas: 1
+policyController:
+  replicas: 1
