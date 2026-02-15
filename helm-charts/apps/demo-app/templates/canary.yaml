@@ -1,0 +1,53 @@
+
+{{- if .Values.canary.enabled -}}
+apiVersion: split.smi-spec.io/v1alpha2
+kind: TrafficSplit
+metadata:
+  name: demo-app-split
+  namespace: {{ .Release.Namespace }}
+spec:
+  service: {{ include "demo-app.fullname" . }}
+  backends:
+  - service: {{ include "demo-app.fullname" . }}
+    weight: {{ .Values.canary.weight | default 100 }}
+  - service: {{ include "demo-app.fullname" . }}-canary
+    weight: {{ sub 100 (.Values.canary.weight | default 100) }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "demo-app.fullname" . }}-canary
+  labels:
+    app.kubernetes.io/name: {{ include "demo-app.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app: demo-app-canary
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: demo-app-canary
+  template:
+    metadata:
+      labels:
+        app: demo-app-canary
+      annotations:
+        linkerd.io/inject: enabled
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "demo-app.fullname" . }}-canary
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+    targetPort: 80
+  selector:
+    app: demo-app-canary
+{{- end }}
