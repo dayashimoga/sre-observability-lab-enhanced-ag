@@ -1,0 +1,11 @@
+
+apiVersion: v2
+name: minio
+description: MinIO Object Storage
+type: application
+version: 1.0.0
+appVersion: "RELEASE.2023-09-30T07-02-29Z"
+dependencies:
+  - name: minio
+    version: 5.0.14
+    repository: https://charts.min.io/

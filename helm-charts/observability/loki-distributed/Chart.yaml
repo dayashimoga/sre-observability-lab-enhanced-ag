@@ -1,0 +1,11 @@
+
+apiVersion: v2
+name: loki-distributed
+description: Wrapper for loki-distributed
+type: application
+version: 1.0.0
+appVersion: "2.9.2"
+dependencies:
+  - name: loki-distributed
+    version: 0.76.1
+    repository: https://grafana.github.io/helm-charts

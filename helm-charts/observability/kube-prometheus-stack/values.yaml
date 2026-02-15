@@ -1,0 +1,80 @@
+
+kube-prometheus-stack:
+  prometheus:
+    prometheusSpec:
+      # PRODUCTION GRADE: Run 2 replicas for High Availability.
+      # This ensures that if one pod fails or is being upgraded, metrics collection continues.
+      replicas: 2
+      # PRODUCTION GRADE: Retain 10 days of metrics locally on the PVC.
+      # For longer retention, we use Thanos Sidecar to ship blocks to Object Storage (MinIO).
+      retention: 10d
+      storageSpec:
+        volumeClaimTemplate:
+          spec:
+            storageClassName: local-path-retain
+            accessModes: ["ReadWriteOnce"]
+            resources:
+              requests:
+                storage: 10Gi
+      thanos:
+        # PRODUCTION GRADE: Enable Thanos Sidecar.
+        # This component uploads TSDB blocks to Object Storage (MinIO/S3) for long-term retention
+        # and allows Thanos Query to aggregate data from multiple clusters.
+        objectStorageConfig:
+          name: thanos-objstore-config
+          key: thanos.yaml
+      podMonitorSelectorNilUsesHelmValues: false
+      serviceMonitorSelectorNilUsesHelmValues: false
+      ruleSelectorNilUsesHelmValues: false
+  alertmanager:
+    alertmanagerSpec:
+      # PRODUCTION GRADE: Run 2 replicas of Alertmanager for High Availability.
+      replicas: 2
+      storage:
+        volumeClaimTemplate:
+          spec:
+            storageClassName: local-path-retain
+            accessModes: ["ReadWriteOnce"]
+            resources:
+              requests:
+                storage: 2Gi
+      config:
+        global:
+          resolve_timeout: 5m
+        route:
+          group_by: ['job']
+          group_wait: 30s
+          group_interval: 5m
+          repeat_interval: 12h
+          receiver: 'null'
+          routes:
+          - match:
+              alertname: Watchdog
+            receiver: 'null'
+        receivers:
+        - name: 'null'
+  grafana:
+    replicas: 2
+    persistence:
+      enabled: true
+      storageClassName: local-path-retain
+      size: 5Gi
+    adminPassword: "admin" # Change in production!
+    sidecar:
+      dashboards:
+        enabled: true
+        label: grafana_dashboard
+      datasources:
+        enabled: true
+        label: grafana_datasource
+    additionalDataSources:
+      - name: Loki
+        type: loki
+        url: http://loki-distributed-gateway.observability.svc.cluster.local
+        access: proxy
+        isDefault: false
+      - name: Tempo
+        type: tempo
+        url: http://tempo-query-frontend.observability.svc.cluster.local:3100
+        access: proxy
+        isDefault: false

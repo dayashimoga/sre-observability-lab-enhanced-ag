@@ -1,0 +1,23 @@
+
+minio:
+  mode: standalone
+  replicas: 1
+  persistence:
+    enabled: true
+    storageClass: local-path-retain
+    size: 10Gi
+  resources:
+    requests:
+      memory: 512Mi
+  rootUser: "admin"
+  rootPassword: "password123" # Change in production
+  buckets:
+    - name: thanos
+      policy: public
+      purge: false
+    - name: loki
+      policy: public
+      purge: false
+    - name: tempo
+      policy: public
+      purge: false

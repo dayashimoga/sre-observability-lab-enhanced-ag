@@ -1,0 +1,17 @@
+groups:
+- name: system_alerts
+  rules:
+  - alert: HighMemoryUsage
+    expr: node_memory_Active_bytes > 0.9 * node_memory_MemTotal_bytes
+    for: 5m
+    labels:
+      severity: critical
+    annotations:
+      summary: "Node memory usage >90%"
+  - alert: HighDiskUsage
+    expr: node_filesystem_avail_bytes{mountpoint="/"} < 0.1 * node_filesystem_size_bytes{mountpoint="/"}
+    for: 10m
+    labels:
+      severity: critical
+    annotations:
+      summary: "Disk usage >90%"

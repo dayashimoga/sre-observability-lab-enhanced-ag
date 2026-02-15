@@ -1,0 +1,36 @@
+
+loki-distributed:
+  loki:
+    storageConfig:
+      # PRODUCTION GRADE: Use Object Storage (S3/MinIO) for storing logs.
+      # This allows for infinite scalability and cost-effective long-term retention.
+      aws:
+        s3: s3://admin:password123@minio.core.svc.cluster.local.:9000/loki
+        s3forcepathstyle: true
+      boltdb_shipper:
+        # Store the index in S3 as well (Shared Store), only keeping a small cache locally.
+        shared_store: s3
+        active_index_directory: /var/loki/index
+        cache_location: /var/loki/cache
+        cache_ttl: 24h
+    schemaConfig:
+      configs:
+        - from: 2020-10-24
+          store: boltdb-shipper
+          object_store: aws
+          schema: v11
+          index:
+            prefix: index_
+            period: 24h
+  ingester:
+    replicas: 2
+    persistence:
+      enabled: true
+      storageClassName: local-path-retain
+      size: 10Gi
+  querier:
+    replicas: 2
+  queryFrontend:
+    replicas: 2
+  gateway:
+    enabled: true

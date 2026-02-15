@@ -1,0 +1,4 @@
+
+dynatrace-operator:
+  platform: "kubernetes"
+  # User must create the dynakube CR manually or via extra manifests using their API token

@@ -1,0 +1,9 @@
+
+splunk-connect-for-kubernetes:
+  global:
+    splunk:
+      hec:
+        host: splunk-hec.example.com
+        port: 8088
+        token: "REPLACE-WITH-REAL-TOKEN-SECRET"
+        insecureSSL: true
