@@ -6,6 +6,9 @@ image:
   pullPolicy: IfNotPresent
   tag: "alpine" 
 
+podAnnotations:
+  linkerd.io/inject: enabled
+
 service:
   type: ClusterIP
   port: 80
